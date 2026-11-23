@@ -1,0 +1,781 @@
+[
+  {
+    "id": "F0-01",
+    "phase": "F0",
+    "area": "coordinacion",
+    "priority": "P0",
+    "title": "Auditoría inicial del monorepo (solo lectura)",
+    "depends_on": [],
+    "criteria": [
+      "Inventario real de dependencias, scripts, lockfiles y Git",
+      "Reporte de riesgos/pendientes sin modificar archivos",
+      "Comandos ejecutados anotados en ESTADO_ACTUAL"
+    ],
+    "negative_test": "Detectar scripts inexistentes y lockfiles divergentes sin eliminarlos",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F0-02",
+    "phase": "F0",
+    "area": "coordinacion",
+    "priority": "P0",
+    "title": "Normalizar pnpm workspace y arranque local",
+    "depends_on": [
+      "F0-01"
+    ],
+    "criteria": [
+      "Un único lockfile raíz, si el análisis confirma workspace",
+      "Frontend y backend inician desde clon fresco",
+      "Documentar scripts verificados y requisitos Node"
+    ],
+    "negative_test": "Fallo de instalación cuando lockfile no coincide; corregir sin borrar dependencias a ciegas",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F0-03",
+    "phase": "F0",
+    "area": "coordinacion",
+    "priority": "P0",
+    "title": "Integrar AGENTS, skills y guías sin sobrescribir contenido útil",
+    "depends_on": [
+      "F0-01"
+    ],
+    "criteria": [
+      "AGENTS root y locales revisados",
+      "Skills detectables desde Codex o lectura manual",
+      "Guía de 3 chats y checkpoint en repo"
+    ],
+    "negative_test": "Detectar instrucciones contradictorias y registrar resolución",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F0-04",
+    "phase": "F0",
+    "area": "coordinacion",
+    "priority": "P0",
+    "title": "GitHub Issues, Projects y flujo PR de prueba",
+    "depends_on": [
+      "F0-03"
+    ],
+    "criteria": [
+      "Plantillas de Issue/PR visibles",
+      "Tablero enlazado a repositorio",
+      "Rama y PR de ejemplo revisados"
+    ],
+    "negative_test": "Comprobar que cambios directos a main no formen parte del proceso habitual",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F0-05",
+    "phase": "F0",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Confirmar endpoint health y manejo de errores inicial",
+    "depends_on": [
+      "F0-02"
+    ],
+    "criteria": [
+      "GET /api/health responde JSON estable",
+      "Backend escucha puerto configurable",
+      "README explica cómo ejecutar y verificar"
+    ],
+    "negative_test": "Ruta inexistente produce 404 controlado",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F1-01",
+    "phase": "F1",
+    "area": "arquitectura",
+    "priority": "P0",
+    "title": "Diseñar ER y estados para la BD",
+    "depends_on": [
+      "F0-01"
+    ],
+    "criteria": [
+      "Definir entidades y claves para productos, pedidos, pagos y adjuntos",
+      "Definir snapshots de precios, token de seguimiento y auditoría",
+      "Diagramar relaciones y aprobar reglas de estado"
+    ],
+    "negative_test": "No permitir preparar sin pago verificado",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F1-02",
+    "phase": "F1",
+    "area": "arquitectura",
+    "priority": "P0",
+    "title": "Configurar PostgreSQL/Prisma y migración inicial",
+    "depends_on": [
+      "F1-01",
+      "F0-02"
+    ],
+    "criteria": [
+      "Conexión por .env sin secretos en Git",
+      "Migración reproducible en DB de desarrollo",
+      "Instrucciones para reset seguro solo de DB local"
+    ],
+    "negative_test": "Conexión inválida falla sin filtrar credenciales",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F1-03",
+    "phase": "F1",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Semillas de universidades y catálogo ficticio",
+    "depends_on": [
+      "F1-02"
+    ],
+    "criteria": [
+      "UDI, Univalle y UCEBOL únicos",
+      "Productos seed con precios de prueba claramente marcados",
+      "Seed ejecutable repetidamente sin duplicar"
+    ],
+    "negative_test": "No permitir cuarta universidad sin decisión explícita",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F1-04",
+    "phase": "F1",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Validaciones base y respuestas de error API",
+    "depends_on": [
+      "F0-05"
+    ],
+    "criteria": [
+      "Validador servidor para campos comunes",
+      "Errores JSON sin stacktrace sensible",
+      "Tests de 400/422 y límite de payload"
+    ],
+    "negative_test": "Request malformado no detiene la API",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F1-05",
+    "phase": "F1",
+    "area": "arquitectura",
+    "priority": "P0",
+    "title": "Aprobar y versionar contrato API v1",
+    "depends_on": [
+      "F1-01",
+      "F1-04"
+    ],
+    "criteria": [
+      "Documentar payloads/endpoints y respuestas",
+      "Acordar estados independientes y errores",
+      "Ejemplos HTTP reproducibles y revisión"
+    ],
+    "negative_test": "Detectar incompatibilidad con frontend antes de merge",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F2-01",
+    "phase": "F2",
+    "area": "backend",
+    "priority": "P0",
+    "title": "GET productos/categorías con disponibilidad",
+    "depends_on": [
+      "F1-02",
+      "F1-03",
+      "F1-04"
+    ],
+    "criteria": [
+      "GET products consulta BD real",
+      "Disponibilidad y agotado reflejados correctamente",
+      "Respuesta paginable o limitada si escala"
+    ],
+    "negative_test": "No filtrar datos administrativos en endpoint público",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F2-03",
+    "phase": "F2",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "React consulta catálogo y maneja estados",
+    "depends_on": [
+      "F2-01"
+    ],
+    "criteria": [
+      "Servicio HTTP aislado del componente",
+      "Pantalla con carga, error y vacío",
+      "Productos agotados no se seleccionan"
+    ],
+    "negative_test": "API caída muestra error sin romper página",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-01",
+    "phase": "F3",
+    "area": "frontend",
+    "priority": "P0",
+    "title": "Carrito con cantidades y subtotal visual",
+    "depends_on": [
+      "F2-03"
+    ],
+    "criteria": [
+      "Agregar, quitar y ajustar cantidades",
+      "Estado consistente entre rutas",
+      "Subtotal marcado como visual y sujeto a servidor"
+    ],
+    "negative_test": "Cantidad cero/negativa no se envía",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-02",
+    "phase": "F3",
+    "area": "frontend",
+    "priority": "P0",
+    "title": "Checkout universidades y programación",
+    "depends_on": [
+      "F3-01",
+      "F1-05"
+    ],
+    "criteria": [
+      "Datos necesarios sin cuenta",
+      "Solo 3 universidades y referencia",
+      "Horario futuro validado y aviso fuera de 11–22"
+    ],
+    "negative_test": "No aceptar universidad inexistente ni hora pasada",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-03",
+    "phase": "F3",
+    "area": "backend",
+    "priority": "P0",
+    "title": "POST orders atómico, snapshot e idempotencia",
+    "depends_on": [
+      "F1-05",
+      "F2-01"
+    ],
+    "criteria": [
+      "Precio y producto recalculado en servidor",
+      "Pedido/ítems guardados transaccionalmente",
+      "ID público + token privado + idempotencia"
+    ],
+    "negative_test": "Repetir misma clave crea un solo pedido; precio manipulado ignorado",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-04",
+    "phase": "F3",
+    "area": "frontend",
+    "priority": "P0",
+    "title": "Pantalla revisar pedido antes de registrar",
+    "depends_on": [
+      "F3-02"
+    ],
+    "criteria": [
+      "Resumen de datos y subtotal",
+      "Aviso envío Bs 5–10 aparte visible antes de pagar",
+      "Confirmación llama API solo al aceptar"
+    ],
+    "negative_test": "Doble clic no dispara múltiples pedidos",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-05",
+    "phase": "F3",
+    "area": "backend",
+    "priority": "P0",
+    "title": "GET seguimiento por token con datos mínimos",
+    "depends_on": [
+      "F3-03"
+    ],
+    "criteria": [
+      "Token aleatorio de alta entropía",
+      "Solo ID/estado/monto necesario sin PII",
+      "Limitación de consultas"
+    ],
+    "negative_test": "Token inválido no expone datos ni distingue pedidos",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F3-06",
+    "phase": "F3",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "Página pedido registrado con ID, QR pendiente y seguimiento",
+    "depends_on": [
+      "F3-03",
+      "F3-05",
+      "F3-04"
+    ],
+    "criteria": [
+      "Recupera por token",
+      "Muestra registrado no pagado",
+      "Puede reabrirse tras cerrar navegador con enlace"
+    ],
+    "negative_test": "No marca pagado al refrescar",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-01",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Autenticación administrativa segura",
+    "depends_on": [
+      "F1-02",
+      "F1-04"
+    ],
+    "criteria": [
+      "Hash de credenciales y sesión segura",
+      "Rate limit login/logout",
+      "Pruebas de acceso sin sesión"
+    ],
+    "negative_test": "Anónimo no accede a endpoints admin",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-02",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Carga privada de comprobantes QR",
+    "depends_on": [
+      "F3-05",
+      "F1-02"
+    ],
+    "criteria": [
+      "Upload valida tamaño/tipo/contenido",
+      "Almacenar privado y asociar al pedido",
+      "Pago pasa a under_review, nunca verified"
+    ],
+    "negative_test": "Comprobante HTML/SVG o lectura pública es rechazado",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-03",
+    "phase": "F4",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "Subir comprobante y mostrar pago en revisión",
+    "depends_on": [
+      "F3-06",
+      "F4-02"
+    ],
+    "criteria": [
+      "Formulario de imagen con error/reintento",
+      "Texto claro de pago por productos",
+      "No autoconfirmar éxito bancario"
+    ],
+    "negative_test": "Archivo inválido no se acepta",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-04",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Administración: ver cola y comprobantes privados",
+    "depends_on": [
+      "F4-01",
+      "F4-02"
+    ],
+    "criteria": [
+      "Listado protegido con filtros mínimos",
+      "Adjuntos solo accesibles por admin",
+      "Pagos pendientes visibles separados"
+    ],
+    "negative_test": "Usuario público no obtiene URL de comprobante",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-05",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Verificación bancaria manual, incidencia y auditoría",
+    "depends_on": [
+      "F4-04"
+    ],
+    "criteria": [
+      "Admin confirma pago tras revisión humana registrada",
+      "Estado issue + detalle de gestión",
+      "Nunca se prepara antes del verified"
+    ],
+    "negative_test": "Subida sola no confirma ni cambia preparing",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-06",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Cancelar incidencia sin borrar historial",
+    "depends_on": [
+      "F4-05"
+    ],
+    "criteria": [
+      "Motivo y actor registrados",
+      "Cancelado desaparece de cola activa, sigue en historial",
+      "Pagos realmente recibidos se escalan a solución manual"
+    ],
+    "negative_test": "No borrar pedido ni ocultar una transacción confirmada",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F4-07",
+    "phase": "F4",
+    "area": "backend",
+    "priority": "P1",
+    "title": "CRUD admin de productos autenticado",
+    "depends_on": [
+      "F2-01",
+      "F4-01"
+    ],
+    "criteria": [
+      "Alta, edición y agotado con validaciones",
+      "No publicar productos sin datos mínimos",
+      "Tests de cambios y permisos"
+    ],
+    "negative_test": "Usuario sin sesión recibe 401/403; no modifica producto",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F5-01",
+    "phase": "F5",
+    "area": "backend",
+    "priority": "P0",
+    "title": "Máquina de estados para cocina y entrega",
+    "depends_on": [
+      "F4-05"
+    ],
+    "criteria": [
+      "Transiciones permitidas documentadas",
+      "Registro de fecha/actor",
+      "Distinguir pending, scheduled, preparing, ready, on_the_way, delivered"
+    ],
+    "negative_test": "No preparar impago ni entregar sin proceso válido",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F5-02",
+    "phase": "F5",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Horario 11–22 y programación validada",
+    "depends_on": [
+      "F3-03",
+      "F5-01"
+    ],
+    "criteria": [
+      "Validar timezone America/La_Paz",
+      "Reservas futuras disponibles",
+      "Franja configurable; cerrados no aceptan inmediato imposible"
+    ],
+    "negative_test": "Pedido inmediato a las 23:00 rechazado o convertido en reserva explícita",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F5-03",
+    "phase": "F5",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Método de entrega manual y aviso de costo",
+    "depends_on": [
+      "F5-01"
+    ],
+    "criteria": [
+      "Admin elige walking/external",
+      "No API de mototaxi",
+      "Guardar notas no sensibles de coordinación"
+    ],
+    "negative_test": "No marcar en camino solo por solicitar mototaxi",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F5-04",
+    "phase": "F5",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "WhatsApp y consulta de estado básicos",
+    "depends_on": [
+      "F3-06",
+      "F5-01"
+    ],
+    "criteria": [
+      "wa.me prellenado solo con ID",
+      "Estado se refresca de forma controlada",
+      "WhatsApp no es condición de confirmación"
+    ],
+    "negative_test": "Pulsar enlace nunca crea pedido adicional",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F6-01",
+    "phase": "F6",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "Inventario de archivos recibidos de Diseño",
+    "depends_on": [
+      "F0-02"
+    ],
+    "criteria": [
+      "Guardar fuente original en design-source",
+      "Mapeo pantallas/estilos/scripts",
+      "Anotar licencias/autoría de recursos entregados"
+    ],
+    "negative_test": "No sobrescribir HTML/CSS/JS fuente",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F6-02",
+    "phase": "F6",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "Migrar pantallas visuales a React sin romper CSS",
+    "depends_on": [
+      "F6-01",
+      "F3-06"
+    ],
+    "criteria": [
+      "Componentes JSX limpios",
+      "Sin manipulaciones DOM incompatibles",
+      "Flujo completo con servicios Express"
+    ],
+    "negative_test": "Navegar carrito/checkout/seguimiento sin recarga destructiva",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F6-03",
+    "phase": "F6",
+    "area": "frontend",
+    "priority": "P1",
+    "title": "Accesibilidad y responsive de compra/admin",
+    "depends_on": [
+      "F6-02",
+      "F4-04"
+    ],
+    "criteria": [
+      "Form labels/errores visibles y teclado",
+      "Móvil y desktop verificados",
+      "Loading, empty, errors y botones deshabilitados"
+    ],
+    "negative_test": "Formulario incompleto no procesa pedido",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F7-01",
+    "phase": "F7",
+    "area": "ml",
+    "priority": "P0",
+    "title": "Generador reproducible de datos sintéticos",
+    "depends_on": [
+      "F0-02"
+    ],
+    "criteria": [
+      "Script con semilla fija",
+      "Documento de supuestos y esquema",
+      "CSV generado sin personas reales"
+    ],
+    "negative_test": "Ejecutar dos veces con semilla misma produce mismos datos",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F7-02",
+    "phase": "F7",
+    "area": "ml",
+    "priority": "P0",
+    "title": "Baseline y modelo regresión con evaluación temporal",
+    "depends_on": [
+      "F7-01"
+    ],
+    "criteria": [
+      "División temporal de train/test",
+      "Baseline comparado con modelo scikit-learn",
+      "MAE/RMSE e interpretación por universidad"
+    ],
+    "negative_test": "Evitar leakage por normalización/variables del futuro",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F7-03",
+    "phase": "F7",
+    "area": "ml",
+    "priority": "P1",
+    "title": "Informe académico reproducible y limitaciones",
+    "depends_on": [
+      "F7-02"
+    ],
+    "criteria": [
+      "Notebook/script corre desde cero",
+      "Resultados con versiones/semilla",
+      "No afirmar validez con demanda real"
+    ],
+    "negative_test": "Mostrar un caso en que modelo no supera baseline",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F7-04",
+    "phase": "F7",
+    "area": "backend",
+    "priority": "P1",
+    "title": "Analítica de ventas de pagos verificados",
+    "depends_on": [
+      "F4-05"
+    ],
+    "criteria": [
+      "Pedidos por universidad y productos vendidos",
+      "Solo pagos verificados en ingresos",
+      "Consultas paginadas/limitadas y test"
+    ],
+    "negative_test": "Pago bajo revisión no aumenta ingresos",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F8-01",
+    "phase": "F8",
+    "area": "seguridad",
+    "priority": "P0",
+    "title": "Pruebas negativas de pagos, permisos y tokens",
+    "depends_on": [
+      "F4-05",
+      "F5-01"
+    ],
+    "criteria": [
+      "Suite de ocho casos de BASELINE ejecutada",
+      "Resultados evidenciados",
+      "No exposición pública de PII/comprobantes"
+    ],
+    "negative_test": "Intento fraude de imagen no da estado verified",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F8-02",
+    "phase": "F8",
+    "area": "calidad",
+    "priority": "P1",
+    "title": "Pruebas de carga y reporte de p95/error rate",
+    "depends_on": [
+      "F3-03",
+      "F2-01"
+    ],
+    "criteria": [
+      "Dataset 100/1000/10000 simulado",
+      "Reportes 1–5/10/25 usuarios virtuales",
+      "Ambiente y resultados documentados"
+    ],
+    "negative_test": "No probar carga destructiva en producción",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F8-03",
+    "phase": "F8",
+    "area": "calidad",
+    "priority": "P0",
+    "title": "Pruebas end-to-end y defensa por módulo",
+    "depends_on": [
+      "F6-03",
+      "F7-03",
+      "F8-01"
+    ],
+    "criteria": [
+      "Recorrido pedido→QR→admin→entrega probado",
+      "Demo con datos de prueba sin secretos",
+      "Documento de limitaciones y roles reales"
+    ],
+    "negative_test": "Demostrar caso de pago no encontrado y cancelación historial",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  },
+  {
+    "id": "F8-04",
+    "phase": "F8",
+    "area": "coordinacion",
+    "priority": "P1",
+    "title": "Checklist de despliegue seguro y recuperación",
+    "depends_on": [
+      "F8-03"
+    ],
+    "criteria": [
+      "Config env/secrets/HTTPS validada",
+      "Backups y procedimiento probado si existen datos reales",
+      "Solo habilitar pagos reales si controles comprobados"
+    ],
+    "negative_test": "Intentar acceder con usuario anónimo; no exponer comprobantes",
+    "notes": "",
+    "reviewer": "Maycol (o revisor humano designado)",
+    "executor": "Codex + humano operador; no asignar contribuciones ficticias"
+  }
+]
