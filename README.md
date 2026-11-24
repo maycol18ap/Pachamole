@@ -82,7 +82,9 @@ pachamole/
 
 ## Primer arranque en local
 
-**Requisitos:** Git, Node.js compatible con la versión de Vite instalada y pnpm. Revisar versiones con:
+**Requisitos** — Git, Node.js `22.23.1` y pnpm `12.14.0`. Son las versiones
+verificadas en Fedora y declaradas en el [manifiesto del workspace](package.json).
+Verifica tu entorno con:
 
 ```bash
 git --version
@@ -93,8 +95,13 @@ pnpm --version
 En la raíz del repositorio clonado:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 ```
+
+La instalación usa el único `pnpm-lock.yaml` de la raíz. Para configurar el
+backend desde un archivo, copia `backend/.env.example` a `backend/.env` y
+ajusta `PORT`. El archivo es opcional y Express lo carga al arrancar con
+`pnpm --dir backend`. Una variable `PORT` del entorno tiene prioridad.
 
 Para iniciar cada aplicación en **terminales separadas**:
 
@@ -189,7 +196,7 @@ El equipo de Sistemas convertirá los diseños recibidos a React. La distribuci�
 Se considera listo cuando:
 
 - [ ] El repositorio se puede clonar.
-- [ ] `pnpm install` termina correctamente desde la raíz.
+- [ ] `pnpm install --frozen-lockfile` termina correctamente desde la raíz.
 - [ ] Frontend y backend se pueden ejecutar con scripts documentados.
 - [ ] Existe una prueba simple de salud de la API y se conoce su URL.
 - [ ] Los tres integrantes pueden crear una rama y abrir un PR de prueba.
