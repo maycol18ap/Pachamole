@@ -103,7 +103,23 @@ pnpm --dir frontend dev
 pnpm --dir backend dev
 ```
 
-**Importante:** estos comandos dependen de que **ambos** `package.json` tengan un script `dev`. En Vite normalmente existe; en `backend/package.json` debe comprobarse. Si el backend aún no tiene `dev`, coordinación lo añadirá en Sprint 0 o se podrá iniciar temporalmente con `node backend/src/index.js` desde la raíz si el archivo funciona y está configurado adecuadamente. La URL/puerto del backend se confirmará en `backend/src/index.js`; Vite suele mostrar la suya en terminal. **No presuponer que la base de datos ya está disponible.**
+Vite muestra su URL en la terminal, normalmente `http://localhost:5173`.
+El backend escucha en `http://localhost:3000` cuando `PORT` está ausente.
+Para iniciar Express sin modo watch, ejecuta `pnpm --dir backend start`.
+
+En otra terminal, comprueba el estado de la API y una ruta inexistente:
+
+```bash
+curl -i http://localhost:3000/api/health       # 200 JSON
+curl -i http://localhost:3000/api/no-existe   # 404
+pnpm --dir backend test
+```
+
+Para probar un puerto distinto, detén el backend anterior y arráncalo con
+un puerto libre, por ejemplo `PORT=3100 pnpm --dir backend start`.
+Comprueba `curl -i http://localhost:3100/api/health`. El puerto debe ser un
+entero decimal entre 1 y 65535. Un valor inválido detiene el arranque
+con un mensaje en stderr y un código de salida distinto de cero.
 
 Para listar los scripts disponibles:
 
