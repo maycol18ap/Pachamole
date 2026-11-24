@@ -17,7 +17,7 @@
 | Python + entorno virtual | Omar; quien revise ML | Ejecutar notebooks/scripts de ML |
 | PostgreSQL/Supabase | Más adelante, según módulo | Almacenamiento real; **no hace falta para Sprint 0** |
 
-**pnpm sí es compatible con el proyecto.** Para evitar diferencias, usar todos pnpm y mantener **un solo lockfile raíz** cuando el workspace esté normalizado. No hacer `npm install` dentro de los paquetes si el equipo ya acordó pnpm.
+El workspace usa pnpm y un único `pnpm-lock.yaml` en la raíz. Usa las versiones declaradas en el [manifiesto raíz](../package.json).
 
 **Tailwind:** no es requisito para trabajar ahora. Diseño entregará CSS; se conservará al convertir HTML/JS a componentes React. Antes de instalar o migrar a Tailwind, crear un Issue y acordar qué estilos conservar.
 
@@ -29,7 +29,7 @@ node --version
 pnpm --version
 ```
 
-Si `pnpm` no existe, pedir a coordinación la versión acordada e instalarla por un método documentado (por ejemplo Corepack si está disponible, o el instalador oficial). **No usar `sudo npm install -g` por costumbre.** Si Vite falla, revisar la versión de Node requerida por la versión instalada del proyecto.
+Si `pnpm` no está disponible, instala la versión del manifiesto raíz. Consulta los [requisitos y comandos verificados](../README.md#primer-arranque-en-local).
 
 ## 2. Cómo obtener el proyecto por primera vez
 
@@ -39,9 +39,9 @@ Si `pnpm` no existe, pedir a coordinación la versión acordada e instalarla por
 4. Ejecutar:
 
 ```bash
-git clone URL_REAL_DEL_REPOSITORIO
+git clone URL_REAL_DEL_REPOSITORIO pachamole
 cd pachamole
-pnpm install
+pnpm install --frozen-lockfile
 ```
 
 Si usas HTTPS, GitHub puede pedir credenciales mediante un gestor de credenciales/token; no se utiliza la contraseña de la cuenta como contraseña Git. Si usas SSH, la clave debe estar configurada en tu cuenta.
@@ -64,15 +64,15 @@ Terminal B:
 pnpm --dir backend dev
 ```
 
-**Si falla el segundo comando:** comprobar el script `dev` con `cat backend/package.json`. El árbol inicial muestra `backend/src/index.js`, pero no demuestra que exista `scripts.dev`. Avisar al coordinador o esperar el PR de arranque del backend; no inventar una configuración incompatible.
-
-Si se necesita iniciar el archivo directamente y está preparado para ello, desde la raíz se puede probar:
+Para iniciar Express sin modo watch y comprobar health, usa los siguientes
+comandos en terminales separadas:
 
 ```bash
-node backend/src/index.js
+pnpm --dir backend start
+curl -i http://localhost:3000/api/health
 ```
 
-Las URLs/puertos reales aparecerán en las terminales o en la configuración. No afirmar que el frontend ya consume la API ni que la base de datos está operativa si aún no se integraron.
+Las terminales muestran las URLs. Para cambiar el puerto de Express, sigue las instrucciones de `PORT` del [README](../README.md#primer-arranque-en-local).
 
 Para parar un proceso de desarrollo: `Ctrl+C` en su terminal.
 
@@ -245,6 +245,8 @@ Si aparecen conflictos: abrir los archivos señalados, decidir qué contenido co
 
 **Issue = tarea; Project = tablero; PR = entrega revisable.**
 
+El equipo usa el [tablero de Pachamole](https://github.com/users/maycol18ap/projects/2).
+
 Estados recomendados:
 
 1. **Backlog:** ideas o tareas no priorizadas.
@@ -272,9 +274,7 @@ No se medirán contribuciones solo por número de commits. La evidencia incluye 
 
 **`pnpm: command not found`** → instalar/activar pnpm de la versión acordada.
 
-**`Unsupported engine` o error de Vite** → revisar la versión de Node compatible con Vite del proyecto.
-
-**`Missing script: dev` en backend** → falta el script en `backend/package.json`; coordinar Sprint 0. No copiar scripts a ciegas.
+**`Unsupported engine` o error de Vite** → comprobar que Node y pnpm coincidan con las versiones del manifiesto raíz.
 
 **`Permission denied` al hacer push** → aceptar invitación y revisar acceso HTTPS/SSH, remoto y permisos. Comprobar `git remote -v`.
 
@@ -282,22 +282,23 @@ No se medirán contribuciones solo por número de commits. La evidencia incluye 
 
 **`non-fast-forward` al hacer push** → alguien cambió esa rama; verificar antes de integrar y evitar `--force`.
 
-**Falla `pnpm install` por lockfiles** → el árbol inicial contiene `pnpm-lock.yaml` en la raíz **y dentro de `frontend/` y `backend/`**. Un workspace normal suele conservar únicamente el lockfile de la raíz. **Coordinación debe revisar y normalizar esta situación en una tarea separada** antes de eliminar archivos: comprobar qué depende de ellos y regenerar el lockfile raíz con pnpm.
+**Falla `pnpm install --frozen-lockfile`** → comprobar que el comando se ejecutó en la raíz y revisar los cambios en los manifiestos y en `pnpm-lock.yaml`. Registrar el error en el Issue correspondiente.
 
 **No aparece una carpeta vacía tras clonar** → Git no almacena directorios vacíos; incorporar un `.gitkeep` o un README cuando la carpeta sea necesaria.
 
-## 13. Primera tarea de práctica de los tres
+## 13. Evidencia de revisión de F0
 
-Para confirmar que saben trabajar sin alterar código sensible:
+Usar el PR de cierre de F0 de `f0/cierre-integracion` contra `main`,
+que incluye [#10](https://github.com/maycol18ap/Pachamole/issues/10), como ejemplo para
+[#9](https://github.com/maycol18ap/Pachamole/issues/9).
+Otra persona del equipo debe revisar el diff, reproducir las pruebas de
+puerto predeterminado, alternativo e inválido, y registrar su aprobación
+con **Review changes → Approve** en GitHub.
 
-1. Cada compañero clona el proyecto e instala dependencias.
-2. Crea un Issue de práctica asignado.
-3. Abre una rama `docs/NUMERO-prueba-colaboracion`.
-4. Agrega en `docs/` una pequeña nota indicando qué comandos probó, sin información personal o secretos.
-5. Hace commit, push y abre PR.
-6. Otro compañero revisa; se fusiona.
-
-Solo después de completar esto empiezan las tareas de productos, pedidos y ML.
+**Pendiente:** obtener la aprobación registrada y anotar en #9 el enlace
+al PR de cierre y a la revisión.
+La [plantilla de PR](../.github/pull_request_template.md) recoge el Issue,
+los comandos, la prueba de error y el impacto sobre API o entorno.
 
 ## 14. Lista de verificación antes de pedir revisión
 

@@ -82,7 +82,9 @@ pachamole/
 
 ## Primer arranque en local
 
-**Requisitos:** Git, Node.js compatible con la versión de Vite instalada y pnpm. Revisar versiones con:
+**Requisitos** — Git, Node.js `22.23.1` y pnpm `12.14.0`. Son las versiones
+verificadas en Fedora y declaradas en el [manifiesto del workspace](package.json).
+Verifica tu entorno con:
 
 ```bash
 git --version
@@ -93,8 +95,14 @@ pnpm --version
 En la raíz del repositorio clonado:
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 ```
+
+La instalación usa el único `pnpm-lock.yaml` de la raíz. Para configurar el
+backend desde un archivo, copia `backend/.env.example` a `backend/.env` y
+ajusta `PORT`. El archivo es opcional y el backend lo carga al ejecutar
+`pnpm --dir backend dev` o `pnpm --dir backend start`.
+Una variable `PORT` del entorno tiene prioridad.
 
 Para iniciar cada aplicación en **terminales separadas**:
 
@@ -103,7 +111,24 @@ pnpm --dir frontend dev
 pnpm --dir backend dev
 ```
 
-**Importante:** estos comandos dependen de que **ambos** `package.json` tengan un script `dev`. En Vite normalmente existe; en `backend/package.json` debe comprobarse. Si el backend aún no tiene `dev`, coordinación lo añadirá en Sprint 0 o se podrá iniciar temporalmente con `node backend/src/index.js` desde la raíz si el archivo funciona y está configurado adecuadamente. La URL/puerto del backend se confirmará en `backend/src/index.js`; Vite suele mostrar la suya en terminal. **No presuponer que la base de datos ya está disponible.**
+Vite muestra su URL en la terminal, normalmente `http://localhost:5173`.
+El backend escucha en `http://localhost:3000` cuando `PORT` está ausente.
+Para iniciar Express sin modo watch, ejecuta `pnpm --dir backend start`.
+
+En otra terminal, comprueba el estado de la API y una ruta inexistente:
+
+```bash
+curl -i http://localhost:3000/api/health       # 200 JSON
+curl -i http://localhost:3000/api/no-existe   # 404
+pnpm --dir backend test
+```
+
+Para probar un puerto distinto, detén el backend anterior y arráncalo con
+un puerto libre, por ejemplo `PORT=3100 pnpm --dir backend start`.
+Comprueba `curl -i http://localhost:3100/api/health`. El puerto debe ser un
+entero decimal entre 1 y 65535. Para comprobar el rechazo, ejecuta
+`PORT=invalido pnpm --dir backend start`. El arranque termina con un
+mensaje en stderr y código de salida 1.
 
 Para listar los scripts disponibles:
 
@@ -173,10 +198,10 @@ El equipo de Sistemas convertirá los diseños recibidos a React. La distribuci�
 Se considera listo cuando:
 
 - [ ] El repositorio se puede clonar.
-- [ ] `pnpm install` termina correctamente desde la raíz.
+- [ ] `pnpm install --frozen-lockfile` termina correctamente desde la raíz.
 - [ ] Frontend y backend se pueden ejecutar con scripts documentados.
 - [ ] Existe una prueba simple de salud de la API y se conoce su URL.
-- [ ] Los tres integrantes pueden crear una rama y abrir un PR de prueba.
+- [ ] Otra persona del equipo registra su aprobación en el PR de cierre de F0.
 - [ ] El tablero Projects contiene las primeras tareas asignadas.
 
 > **No modificar este README para afirmar avances no comprobados.** Actualizarlo mediante PR cuando se complete cada hito.
