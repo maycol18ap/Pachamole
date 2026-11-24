@@ -288,15 +288,15 @@ No se medirán contribuciones solo por número de commits. La evidencia incluye 
 
 ## 13. Evidencia de revisión de F0
 
-Usar el PR de [#10](https://github.com/maycol18ap/Pachamole/issues/10),
-preparado en `f0/10-puerto-backend`, como ejemplo para
+Usar el PR de cierre de F0 de `f0/cierre-integracion` contra `main`,
+que incluye [#10](https://github.com/maycol18ap/Pachamole/issues/10), como ejemplo para
 [#9](https://github.com/maycol18ap/Pachamole/issues/9).
 Otra persona del equipo debe revisar el diff, reproducir las pruebas de
 puerto predeterminado, alternativo e inválido, y registrar su aprobación
 con **Review changes → Approve** en GitHub.
 
-**Pendiente:** abrir el PR cuando se autorice la publicación y obtener la
-aprobación registrada. Después, anotar en #9 el enlace al PR y a la revisión.
+**Pendiente:** obtener la aprobación registrada y anotar en #9 el enlace
+al PR de cierre y a la revisión.
 La [plantilla de PR](../.github/pull_request_template.md) recoge el Issue,
 los comandos, la prueba de error y el impacto sobre API o entorno.
 

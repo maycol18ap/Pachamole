@@ -100,8 +100,9 @@ pnpm install --frozen-lockfile
 
 La instalación usa el único `pnpm-lock.yaml` de la raíz. Para configurar el
 backend desde un archivo, copia `backend/.env.example` a `backend/.env` y
-ajusta `PORT`. El archivo es opcional y Express lo carga al arrancar con
-`pnpm --dir backend`. Una variable `PORT` del entorno tiene prioridad.
+ajusta `PORT`. El archivo es opcional y el backend lo carga al ejecutar
+`pnpm --dir backend dev` o `pnpm --dir backend start`.
+Una variable `PORT` del entorno tiene prioridad.
 
 Para iniciar cada aplicación en **terminales separadas**:
 
@@ -125,8 +126,9 @@ pnpm --dir backend test
 Para probar un puerto distinto, detén el backend anterior y arráncalo con
 un puerto libre, por ejemplo `PORT=3100 pnpm --dir backend start`.
 Comprueba `curl -i http://localhost:3100/api/health`. El puerto debe ser un
-entero decimal entre 1 y 65535. Un valor inválido detiene el arranque
-con un mensaje en stderr y un código de salida distinto de cero.
+entero decimal entre 1 y 65535. Para comprobar el rechazo, ejecuta
+`PORT=invalido pnpm --dir backend start`. El arranque termina con un
+mensaje en stderr y código de salida 1.
 
 Para listar los scripts disponibles:
 
@@ -199,7 +201,7 @@ Se considera listo cuando:
 - [ ] `pnpm install --frozen-lockfile` termina correctamente desde la raíz.
 - [ ] Frontend y backend se pueden ejecutar con scripts documentados.
 - [ ] Existe una prueba simple de salud de la API y se conoce su URL.
-- [ ] Los tres integrantes pueden crear una rama y abrir un PR de prueba.
+- [ ] Otra persona del equipo registra su aprobación en el PR de cierre de F0.
 - [ ] El tablero Projects contiene las primeras tareas asignadas.
 
 > **No modificar este README para afirmar avances no comprobados.** Actualizarlo mediante PR cuando se complete cada hito.
