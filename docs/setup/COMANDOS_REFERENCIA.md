@@ -7,8 +7,12 @@ git status --short
 node --version
 pnpm --version
 codex --version
+pnpm install --frozen-lockfile
+pnpm --dir frontend lint
 pnpm --dir frontend build
-# Si hay script dev en backend:
+pnpm --dir backend test
+# Arranque en dos terminales, ambas en la raíz:
+pnpm --dir frontend dev
 pnpm --dir backend dev
 ```
 
@@ -16,7 +20,7 @@ pnpm --dir backend dev
 ```bash
 git switch main
 git pull --ff-only origin main
-git switch -c feature/F0-01-auditoria
+git switch -c docs/verificacion-f0
 # Abrir Codex dentro del repo y pasar el prompt de docs/workflows/PROMPT_CODEX.md
 codex
 git diff --check

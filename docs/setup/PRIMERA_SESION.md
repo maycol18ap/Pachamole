@@ -9,7 +9,7 @@ cd ~/VsCode/appWebs/pachamole
 git status --short
 git switch main
 git pull --ff-only origin main
-git switch -c docs/plan-codex-pachamole
+git switch -c docs/verificacion-f0
 ```
 
 Si hay cambios locales, primero guardarlos o resolverlos; no perderlos con `reset --hard`.
@@ -20,7 +20,7 @@ Leer `docs/setup/INICIO.md` del paquete. Extraer a carpeta temporal y comparar `
 
 ## 3. Primera tarea en GitHub
 
-Crear Issue `F0-01 Auditoría inicial del monorepo`. Copiar criterios desde `docs/planning/ISSUES.md`. Agregarlo al GitHub Project, estado `En progreso`, área `Coordinación`, ejecutor Maycol con Codex.
+Usar el [Issue #6 — F0-01 Auditoría inicial del monorepo](https://github.com/maycol18ap/Pachamole/issues/6). Contrastar sus criterios con [ISSUES.md](../planning/ISSUES.md) y consultar el checkpoint antes de repetir la auditoría.
 
 ## 4. Primera sesión Codex
 
