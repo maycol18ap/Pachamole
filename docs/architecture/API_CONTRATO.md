@@ -1,6 +1,6 @@
 # Contrato API propuesto — borrador v0
 
-**Importante:** estas rutas son sugerencias y NO son endpoints comprobados en el repositorio. Antes de implementar, revisar las rutas y convenciones existentes. Versionar cambios de contrato en PR.
+**Importante:** GET /api/health está implementado y se verificó localmente. Las demás rutas de esta tabla forman parte del contrato propuesto. Antes de implementarlas, revisar las convenciones existentes y registrar los cambios de contrato en el PR.
 
 | Método | Ruta propuesta | Público/admin | Función |
 |---|---|---|---|
@@ -19,6 +19,19 @@
 | PATCH | `/api/admin/orders/:id/delivery` | Admin | Modalidad a pie/externa |
 | POST/PATCH | `/api/admin/products` | Admin | Alta/edición controladas |
 | GET | `/api/admin/analytics` | Admin | Estadísticas de pagos confirmados |
+
+## GET /api/health
+
+Devuelve HTTP `200 OK` cuando el servidor Express responde.
+`timestamp` indica la fecha y hora de la petición en UTC.
+
+```json
+{
+  "status": "ok",
+  "service": "pachamole-api",
+  "timestamp": "2026-11-23T22:53:53.570Z"
+}
+```
 
 ## Crear pedido: JSON ejemplo de **contrato propuesto**
 
