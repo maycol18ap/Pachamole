@@ -245,6 +245,8 @@ Si aparecen conflictos: abrir los archivos señalados, decidir qué contenido co
 
 **Issue = tarea; Project = tablero; PR = entrega revisable.**
 
+El equipo usa el [tablero de Pachamole](https://github.com/users/maycol18ap/projects/2).
+
 Estados recomendados:
 
 1. **Backlog:** ideas o tareas no priorizadas.
@@ -284,18 +286,19 @@ No se medirán contribuciones solo por número de commits. La evidencia incluye 
 
 **No aparece una carpeta vacía tras clonar** → Git no almacena directorios vacíos; incorporar un `.gitkeep` o un README cuando la carpeta sea necesaria.
 
-## 13. Primera tarea de práctica de los tres
+## 13. Evidencia de revisión de F0
 
-Para confirmar que saben trabajar sin alterar código sensible:
+Usar el PR de [#10](https://github.com/maycol18ap/Pachamole/issues/10),
+preparado en `f0/10-puerto-backend`, como ejemplo para
+[#9](https://github.com/maycol18ap/Pachamole/issues/9).
+Otra persona del equipo debe revisar el diff, reproducir las pruebas de
+puerto predeterminado, alternativo e inválido, y registrar su aprobación
+con **Review changes → Approve** en GitHub.
 
-1. Cada compañero clona el proyecto e instala dependencias.
-2. Crea un Issue de práctica asignado.
-3. Abre una rama `docs/NUMERO-prueba-colaboracion`.
-4. Agrega en `docs/` una pequeña nota indicando qué comandos probó, sin información personal o secretos.
-5. Hace commit, push y abre PR.
-6. Otro compañero revisa; se fusiona.
-
-Solo después de completar esto empiezan las tareas de productos, pedidos y ML.
+**Pendiente:** abrir el PR cuando se autorice la publicación y obtener la
+aprobación registrada. Después, anotar en #9 el enlace al PR y a la revisión.
+La [plantilla de PR](../.github/pull_request_template.md) recoge el Issue,
+los comandos, la prueba de error y el impacto sobre API o entorno.
 
 ## 14. Lista de verificación antes de pedir revisión
 
