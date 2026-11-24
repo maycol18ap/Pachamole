@@ -13,7 +13,7 @@
     ],
     "negative_test": "Detectar scripts inexistentes y lockfiles divergentes sin eliminarlos",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -32,7 +32,7 @@
     ],
     "negative_test": "Fallo de instalación cuando lockfile no coincide; corregir sin borrar dependencias a ciegas",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -51,7 +51,7 @@
     ],
     "negative_test": "Detectar instrucciones contradictorias y registrar resolución",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -70,7 +70,7 @@
     ],
     "negative_test": "Comprobar que cambios directos a main no formen parte del proceso habitual",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -89,7 +89,7 @@
     ],
     "negative_test": "Ruta inexistente produce 404 controlado",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -108,7 +108,7 @@
     ],
     "negative_test": "No permitir preparar sin pago verificado",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -128,7 +128,7 @@
     ],
     "negative_test": "Conexión inválida falla sin filtrar credenciales",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -147,7 +147,7 @@
     ],
     "negative_test": "No permitir cuarta universidad sin decisión explícita",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -166,7 +166,7 @@
     ],
     "negative_test": "Request malformado no detiene la API",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -186,7 +186,7 @@
     ],
     "negative_test": "Detectar incompatibilidad con frontend antes de merge",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -207,7 +207,7 @@
     ],
     "negative_test": "No filtrar datos administrativos en endpoint público",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -226,7 +226,7 @@
     ],
     "negative_test": "API caída muestra error sin romper página",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -245,7 +245,7 @@
     ],
     "negative_test": "Cantidad cero/negativa no se envía",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -265,7 +265,7 @@
     ],
     "negative_test": "No aceptar universidad inexistente ni hora pasada",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -285,7 +285,7 @@
     ],
     "negative_test": "Repetir misma clave crea un solo pedido; precio manipulado ignorado",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -304,7 +304,7 @@
     ],
     "negative_test": "Doble clic no dispara múltiples pedidos",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -323,7 +323,7 @@
     ],
     "negative_test": "Token inválido no expone datos ni distingue pedidos",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -344,7 +344,7 @@
     ],
     "negative_test": "No marca pagado al refrescar",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -364,7 +364,7 @@
     ],
     "negative_test": "Anónimo no accede a endpoints admin",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -384,7 +384,7 @@
     ],
     "negative_test": "Comprobante HTML/SVG o lectura pública es rechazado",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -404,7 +404,7 @@
     ],
     "negative_test": "Archivo inválido no se acepta",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -424,7 +424,7 @@
     ],
     "negative_test": "Usuario público no obtiene URL de comprobante",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -443,7 +443,7 @@
     ],
     "negative_test": "Subida sola no confirma ni cambia preparing",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -462,7 +462,7 @@
     ],
     "negative_test": "No borrar pedido ni ocultar una transacción confirmada",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -482,7 +482,7 @@
     ],
     "negative_test": "Usuario sin sesión recibe 401/403; no modifica producto",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -501,7 +501,7 @@
     ],
     "negative_test": "No preparar impago ni entregar sin proceso válido",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -521,7 +521,7 @@
     ],
     "negative_test": "Pedido inmediato a las 23:00 rechazado o convertido en reserva explícita",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -540,7 +540,7 @@
     ],
     "negative_test": "No marcar en camino solo por solicitar mototaxi",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -560,7 +560,7 @@
     ],
     "negative_test": "Pulsar enlace nunca crea pedido adicional",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -579,7 +579,7 @@
     ],
     "negative_test": "No sobrescribir HTML/CSS/JS fuente",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -599,7 +599,7 @@
     ],
     "negative_test": "Navegar carrito/checkout/seguimiento sin recarga destructiva",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -619,7 +619,7 @@
     ],
     "negative_test": "Formulario incompleto no procesa pedido",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -638,7 +638,7 @@
     ],
     "negative_test": "Ejecutar dos veces con semilla misma produce mismos datos",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -657,7 +657,7 @@
     ],
     "negative_test": "Evitar leakage por normalización/variables del futuro",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -676,7 +676,7 @@
     ],
     "negative_test": "Mostrar un caso en que modelo no supera baseline",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -695,7 +695,7 @@
     ],
     "negative_test": "Pago bajo revisión no aumenta ingresos",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -715,7 +715,7 @@
     ],
     "negative_test": "Intento fraude de imagen no da estado verified",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -735,7 +735,7 @@
     ],
     "negative_test": "No probar carga destructiva en producción",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -756,7 +756,7 @@
     ],
     "negative_test": "Demostrar caso de pago no encontrado y cancelación historial",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   },
   {
@@ -775,7 +775,7 @@
     ],
     "negative_test": "Intentar acceder con usuario anónimo; no exponer comprobantes",
     "notes": "",
-    "reviewer": "Maycol (o revisor humano designado)",
+    "reviewer": "maycol,fernando,omar (o revisor humano designado)",
     "executor": "Codex + humano operador; no asignar contribuciones ficticias"
   }
 ]
