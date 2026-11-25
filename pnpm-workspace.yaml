@@ -2,4 +2,7 @@ packages:
   - frontend
   - backend
 
-  
+allowBuilds:
+  '@prisma/engines@6.19.3': true
+  '@prisma/client@6.19.3': false
+  'prisma@6.19.3': false

@@ -48,7 +48,7 @@ Pachamole es una propuesta de *dark kitchen* de comida de inspiración boliviana
 | Backend | Node.js + Express | API y reglas del negocio |
 | Paquetes JS | pnpm workspace | Instalación coordinada de `frontend` y `backend` |
 | Base de datos, **planeada** | PostgreSQL alojado en Supabase | Persistir pedidos, productos y pagos |
-| ORM, **planeado** | Prisma | Consultas y migraciones de base de datos |
+| ORM | Prisma 6 | Esquema PostgreSQL y migraciones de base de datos |
 | ML académico, **planeado** | Python + pandas + scikit-learn | Datos sintéticos y predicción experimental de demanda |
 | Colaboración | Git, GitHub, Issues, Projects, Pull Requests | Versionado, tareas y revisión |
 
@@ -96,6 +96,7 @@ En la raíz del repositorio clonado:
 
 ```bash
 pnpm install --frozen-lockfile
+pnpm --dir backend db:generate
 ```
 
 La instalación usa el único `pnpm-lock.yaml` de la raíz. Para configurar el
@@ -139,6 +140,8 @@ cat backend/package.json
 
 Si todavía no se ha conectado la web a la API, ver la pantalla inicial de Vite es un resultado normal.
 
+Para aplicar la migración inicial en PostgreSQL local o configurar las conexiones previstas para Vercel y Supabase, consulta la [guía de Prisma](backend/prisma/README.md).
+
 ## Flujo de pedido objetivo
 
 1. Menú → carrito → datos del cliente y universidad.
@@ -161,7 +164,7 @@ frontend/src/
 backend/src/
   modules/products/  modules/orders/  modules/payments/
   modules/deliveries/  modules/admin/  middleware/  config/
-backend/prisma/       # Cuando se configure la base de datos
+backend/prisma/       # Esquema PostgreSQL y migraciones
 ml/data/synthetic/    # Datos claramente rotulados como sintéticos
 ml/notebooks/  ml/src/  ml/reports/
 docs/requirements/  docs/api/  docs/decisions/

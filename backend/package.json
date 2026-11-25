@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "db:generate": "prisma generate",
+    "db:check": "node prisma/check-connection.js",
     "test": "node --test",
     "dev": "node --watch src/index.js",
   "start": "node src/index.js"
@@ -13,8 +15,12 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@prisma/client": "6.19.3",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
     "express": "^5.3.0"
+  },
+  "devDependencies": {
+    "prisma": "6.19.3"
   }
 }
