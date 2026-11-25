@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+  schemas   = ["pachamole"]
+}
+
+enum UniversitySlug {
+  udi
+  univalle
+  ucebol
+
+  @@map("university_slug")
+  @@schema("pachamole")
+}
+
+enum OrderStatus {
+  pending
+  scheduled
+  preparing
+  ready
+  on_the_way
+  delivered
+  cancelled
+
+  @@map("order_status")
+  @@schema("pachamole")
+}
+
+enum PaymentStatus {
+  pending
+  under_review
+  verified
+  issue
+  refund_pending
+
+  @@map("payment_status")
+  @@schema("pachamole")
+}
+
+enum PaymentMethod {
+  qr
+
+  @@map("payment_method")
+  @@schema("pachamole")
+}
+
+enum DeliveryMethod {
+  walking
+  external
+
+  @@map("delivery_method")
+  @@schema("pachamole")
+}
+
+enum AuditActorType {
+  admin
+  customer
+  system
+
+  @@map("audit_actor_type")
+  @@schema("pachamole")
+}
+
+model University {
+  id     String         @id @default(uuid()) @db.Uuid
+  slug   UniversitySlug @unique
+  name   String
+  orders Order[]
+
+  @@map("universities")
+  @@schema("pachamole")
+}
+
+model Category {
+  id       String    @id @default(uuid()) @db.Uuid
+  slug     String    @unique
+  name     String
+  products Product[]
+
+  @@map("categories")
+  @@schema("pachamole")
+}
+
+model Product {
+  id         String      @id @default(uuid()) @db.Uuid
+  categoryId String      @map("category_id") @db.Uuid
+  name       String
+  priceMinor Int         @map("price_minor")
+  active     Boolean
+  available  Boolean
+  category   Category    @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  orderItems OrderItem[]
+
+  @@index([categoryId])
+  @@map("products")
+  @@schema("pachamole")
+}
+
+model Order {
+  id                String            @id @default(uuid()) @db.Uuid
+  publicId          String            @unique @map("public_id")
+  trackingTokenHash String            @unique @map("tracking_token_hash")
+  universityId      String            @map("university_id") @db.Uuid
+  customerName      String            @map("customer_name")
+  customerPhone     String            @map("customer_phone")
+  deliveryReference String            @map("delivery_reference")
+  notes             String?
+  requestedFor      DateTime          @map("requested_for") @db.Timestamptz(3)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  orderStatus       OrderStatus       @default(pending) @map("order_status")
+  foodTotalMinor    Int               @map("food_total_minor")
+  university        University        @relation(fields: [universityId], references: [id], onDelete: Restrict)
+  items             OrderItem[]
+  payment           Payment?
+  delivery          Delivery?
+  auditEvents       AuditEvent[]
+  idempotency       OrderIdempotency?
+
+  @@index([universityId])
+  @@map("orders")
+  @@schema("pachamole")
+}
+
+model OrderItem {
+  id                  String  @id @default(uuid()) @db.Uuid
+  orderId             String  @map("order_id") @db.Uuid
+  productId           String  @map("product_id") @db.Uuid
+  productNameSnapshot String  @map("product_name_snapshot")
+  unitPriceMinor      Int     @map("unit_price_minor")
+  quantity            Int
+  lineTotalMinor      Int     @map("line_total_minor")
+  order               Order   @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  product             Product @relation(fields: [productId], references: [id], onDelete: Restrict)
+
+  @@unique([orderId, productId])
+  @@index([productId])
+  @@map("order_items")
+  @@schema("pachamole")
+}
+
+model Payment {
+  orderId             String        @id @map("order_id") @db.Uuid
+  paymentStatus       PaymentStatus @default(pending) @map("payment_status")
+  method              PaymentMethod @default(qr)
+  creditedAmountMinor Int?          @map("credited_amount_minor")
+  bankReference       String?       @unique @map("bank_reference")
+  verifiedBy          String?       @map("verified_by") @db.Uuid
+  verifiedAt          DateTime?     @map("verified_at") @db.Timestamptz(3)
+  order               Order         @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  verifier            Admin?        @relation(fields: [verifiedBy], references: [id], onDelete: Restrict)
+  receipts            Receipt[]
+
+  @@index([verifiedBy])
+  @@map("payments")
+  @@schema("pachamole")
+}
+
+model Receipt {
+  id             String   @id @default(uuid()) @db.Uuid
+  paymentOrderId String   @map("payment_order_id") @db.Uuid
+  storageKey     String   @unique @map("storage_key")
+  contentType    String   @map("content_type")
+  sizeBytes      Int      @map("size_bytes")
+  uploadedAt     DateTime @default(now()) @map("uploaded_at") @db.Timestamptz(3)
+  payment        Payment  @relation(fields: [paymentOrderId], references: [orderId], onDelete: Restrict)
+
+  @@index([paymentOrderId])
+  @@map("receipts")
+  @@schema("pachamole")
+}
+
+model Delivery {
+  orderId String         @id @map("order_id") @db.Uuid
+  method  DeliveryMethod
+  order   Order          @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@map("deliveries")
+  @@schema("pachamole")
+}
+
+model Admin {
+  id          String       @id @default(uuid()) @db.Uuid
+  active      Boolean
+  auditEvents AuditEvent[]
+  payments    Payment[]
+
+  @@map("admins")
+  @@schema("pachamole")
+}
+
+model AuditEvent {
+  id         String         @id @default(uuid()) @db.Uuid
+  orderId    String         @map("order_id") @db.Uuid
+  adminId    String?        @map("admin_id") @db.Uuid
+  actorType  AuditActorType @map("actor_type")
+  eventType  String         @map("event_type")
+  entityType String         @map("entity_type")
+  fromStatus String?        @map("from_status")
+  toStatus   String?        @map("to_status")
+  reason     String?
+  details    Json?
+  occurredAt DateTime       @default(now()) @map("occurred_at") @db.Timestamptz(3)
+  order      Order          @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  admin      Admin?         @relation(fields: [adminId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([adminId])
+  @@map("audit_events")
+  @@schema("pachamole")
+}
+
+model OrderIdempotency {
+  orderId            String @id @map("order_id") @db.Uuid
+  keyHash            String @unique @map("key_hash")
+  requestFingerprint String @map("request_fingerprint")
+  initialResponse    Json   @map("initial_response")
+  order              Order  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+
+  @@map("order_idempotency")
+  @@schema("pachamole")
+}
