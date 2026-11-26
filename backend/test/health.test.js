@@ -41,10 +41,13 @@ test("GET /api/health devuelve 200 y el estado del servicio en JSON", async () =
   );
 });
 
-test("GET de una ruta inexistente devuelve 404", async () => {
+test("GET de una ruta inexistente bajo /api devuelve 404 en JSON", async () => {
   const response = await fetch(`${baseUrl}/api/no-existe`, {
     signal: AbortSignal.timeout(5000),
   });
-  await response.body.cancel();
   assert.equal(response.status, 404);
+  assert.match(response.headers.get("content-type") ?? "", /^application\/json(?:;|$)/i);
+  assert.deepEqual(await response.json(), {
+    error: { code: "NOT_FOUND", message: "Ruta no encontrada." },
+  });
 });

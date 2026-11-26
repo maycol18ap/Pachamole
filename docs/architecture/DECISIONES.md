@@ -14,6 +14,7 @@
 | ADR-010 | Datos sintéticos y modelo experimental Python | Acordado como exigencia académica | Dataset real aún no existe |
 | ADR-011 | GitHub Projects para tareas + Issues y PR | Acordado como proceso | Evidencias verificables |
 | ADR-012 | Codex implementa Issues pequeños, humano revisa | Nuevo plan | Evitar cambios gigantes no revisados |
+| ADR-013 | Límite JSON de 100 KiB y errores con código y mensaje público | Propuesto en el PR del issue #17 (2026-11-25) | Mantener explícito el límite del parser y enviar errores JSON con formato estable. Se consideró usar el manejo predeterminado de Express, que da menos control sobre la respuesta. Los clientes pueden distinguir los errores de lectura, tamaño y validación. |
 
 ### Estado real del repositorio conocido (último árbol compartido)
 - `frontend/`: plantilla React/Vite con `App.jsx`, CSS, `package.json`.

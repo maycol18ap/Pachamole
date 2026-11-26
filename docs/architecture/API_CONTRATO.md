@@ -51,7 +51,33 @@ Enviar `Idempotency-Key` aleatorio por intento de pedido y reutilizar la misma c
 Respuesta sugerida, sin identificar personas: `201` con `{ publicId, trackingToken, orderStatus, paymentStatus, foodTotal }`; devolver el mismo resultado al reintento idéntico. La cuenta de envío no se incluye en `foodTotal`.
 
 ## Códigos de error
-`400` datos mal formados; `401` falta sesión admin; `403` acceso prohibido; `404` recurso no localizado; `409` estado, stock o clave idempotente en conflicto; `422` validación; `429` rate limit; `500` error interno sin traza sensible.
+El PR del issue #17 propone un límite de **100 KiB (102 400 bytes)** para los cuerpos que procesa el parser JSON. Al superar ese límite, el parser devuelve `413` antes de que la ruta valide el contenido. El límite para adjuntos se define por separado.
+
+El mismo PR propone un objeto `error` con `code` estable y `message` público. Para un `422`, `details` incluye la ruta y el mensaje de cada campo inválido. Las respuestas omiten trazas, mensajes internos y valores recibidos.
+
+| HTTP | Código | Cuándo aplica |
+|---|---|---|
+| `400` | `INVALID_JSON` | La sintaxis JSON es inválida. |
+| `400` | `INVALID_BODY` | La lectura del cuerpo se interrumpe o el tamaño declarado es inválido. |
+| `404` | `NOT_FOUND` | Ninguna ruta bajo `/api` atiende la solicitud. El mensaje es «Ruta no encontrada.». |
+| `413` | `PAYLOAD_TOO_LARGE` | El cuerpo JSON supera el límite. |
+| `415` | `UNSUPPORTED_ENCODING` | La codificación del cuerpo no es compatible. |
+| `422` | `VALIDATION_ERROR` | El contenido incumple las reglas de la ruta, por ejemplo `null` cuando se requiere un objeto. |
+| `500` | `INTERNAL_ERROR` | Ocurre un error inesperado. |
+
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Revisa los campos indicados.",
+    "details": [
+      { "field": "items[0].quantity", "message": "Debe ser un entero mayor que cero." }
+    ]
+  }
+}
+```
+
+El contrato también prevé `401` para falta de sesión admin, `403` para acceso prohibido, `404` cuando una ruta válida no encuentra el recurso solicitado, `409` para conflictos de estado, stock o clave idempotente, y `429` para límites de frecuencia.
 
 ## Seguridad
 - Autenticación, validación y autorización siempre en Express.
