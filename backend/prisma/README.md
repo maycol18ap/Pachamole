@@ -26,6 +26,27 @@ DATABASE_URL='invalido://usuario_ficticio:clave_ficticia@127.0.0.1/pachamole_dev
 
 Prisma declara las claves, relaciones y enums. La migración añade `CHECK` para montos, cantidades, subtotal por ítem, tamaño positivo, verificación bancaria y coherencia entre actor y administrador. Los tipos de evento y de entidad de auditoría se guardan como texto. El flujo de Express aplicará el mínimo de ítems, pago y evento inicial, el total entre tablas, la idempotencia del registro y las transiciones. El flujo de subida aplicará el límite de tamaño y el tipo real del comprobante.
 
+## Cargar el catálogo de prueba
+
+Con el cliente Prisma generado y la migración aplicada según los pasos anteriores, ejecuta desde la raíz del repositorio.
+
+```bash
+pnpm --dir backend db:seed
+```
+
+Usa `DATABASE_URL` del entorno o de `backend/.env`. El seed requiere una conexión directa a PostgreSQL en `127.0.0.1`, `localhost` o `[::1]` y acepta `schema=pachamole` como único parámetro de la URL. Usa una base llamada `pachamole_dev` o `pachamole_test`, con un sufijo opcional como `_seed`. `NODE_ENV` puede estar sin definir o valer `development` o `test`. Antes de insertar, el seed verifica el nombre de la base y la dirección del servidor en la conexión de la transacción.
+
+La carga incluye UDI, Univalle y UCEBOL, las categorías `snacks`, `combos` y `refrescos` y nueve productos de [catalogo-demo.json](seed-data/catalogo-demo.json). Los precios son **provisionales y exclusivos para pruebas**, en centavos de boliviano. Cada ejecución inserta los registros faltantes en una transacción. Usa los slugs únicos de universidades y categorías y UUID fijos para productos, por lo que las ediciones existentes se conservan al volver a ejecutar el comando.
+
+Para reproducir la prueba de integración, crea una base local descartable `pachamole_test` vacía y ajusta la URL del ejemplo. La prueba ejecuta `db:seed` dos veces, verifica que la segunda carga reponga un producto faltante con su UUID original y deja las filas de prueba y sus ediciones en esa base. Para repetirla, usa otra base descartable vacía.
+
+```bash
+export DATABASE_URL='postgresql://pachamole_local:clave_ficticia@127.0.0.1:5432/pachamole_test?schema=pachamole'
+export DIRECT_URL="$DATABASE_URL"
+pnpm --dir backend exec prisma migrate deploy
+PACHAMOLE_SEED_TEST_DATABASE_URL="$DATABASE_URL" pnpm --dir backend test
+```
+
 ### Reset de una base local descartable
 
 `migrate reset` borra el esquema y vuelve a aplicar sus migraciones. Úsalo únicamente para la base local descartable `pachamole_dev`. En el comando de ejemplo, sustituye solo el usuario, la contraseña y, si corresponde, el puerto local. Las dos URLs se fijan para ese proceso. Confirma el destino `127.0.0.1` y `pachamole_dev` en la salida de Prisma antes de aceptar el borrado.
