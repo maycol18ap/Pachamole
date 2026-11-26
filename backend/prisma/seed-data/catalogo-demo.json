@@ -1,0 +1,77 @@
+{
+  "pricesProvisional": true,
+  "products": [
+    {
+      "id": "8507c03c-a41e-4451-b32a-21821d56b728",
+      "categorySlug": "snacks",
+      "name": "El Originario",
+      "priceMinor": 1400,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "5edf1cf0-d3e1-48b8-80f1-4661a9a1eadf",
+      "categorySlug": "snacks",
+      "name": "Quesadillas",
+      "priceMinor": 1700,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "a89489ac-32e0-456a-80fe-1b9e99c8ca59",
+      "categorySlug": "snacks",
+      "name": "Nachos Pacha",
+      "priceMinor": 2000,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "d224cbc4-53c1-419f-ad5a-9bae8c765bca",
+      "categorySlug": "snacks",
+      "name": "Burrito Loco",
+      "priceMinor": 2000,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "acc30742-2ebb-4783-a731-96232109af1b",
+      "categorySlug": "combos",
+      "name": "Pacha al Paso",
+      "priceMinor": 3500,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "dd69a7ac-1fe0-4ae6-882b-19c0028c2272",
+      "categorySlug": "combos",
+      "name": "Nachos Pacha (Combo)",
+      "priceMinor": 3500,
+      "active": true,
+      "available": false
+    },
+    {
+      "id": "3a1638ba-a283-469e-998f-3debf3a4dfb7",
+      "categorySlug": "refrescos",
+      "name": "Limonada",
+      "priceMinor": 700,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "468b3841-4fe1-4136-b1a1-a70cbcef629f",
+      "categorySlug": "refrescos",
+      "name": "Mocochinchi",
+      "priceMinor": 700,
+      "active": true,
+      "available": true
+    },
+    {
+      "id": "6c3bc7dc-8385-448d-b368-da346a286e9b",
+      "categorySlug": "refrescos",
+      "name": "Horchata",
+      "priceMinor": 700,
+      "active": true,
+      "available": true
+    }
+  ]
+}

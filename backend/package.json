@@ -6,6 +6,7 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:check": "node prisma/check-connection.js",
+    "db:seed": "node prisma/seed.js",
     "test": "node --test",
     "dev": "node --watch src/index.js",
   "start": "node src/index.js"
