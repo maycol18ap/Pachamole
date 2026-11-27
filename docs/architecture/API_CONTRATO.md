@@ -50,6 +50,18 @@ Enviar `Idempotency-Key` aleatorio por intento de pedido y reutilizar la misma c
 
 Respuesta sugerida, sin identificar personas: `201` con `{ publicId, trackingToken, orderStatus, paymentStatus, foodTotal }`; devolver el mismo resultado al reintento idéntico. La cuenta de envío no se incluye en `foodTotal`.
 
+### Reglas de entrada propuestas para v1
+
+La ruta de prueba del PR #23 aplica el validador de campos comunes. Estas reglas están pendientes de aprobación en [#18](https://github.com/maycol18ap/Pachamole/issues/18).
+
+- `customer` debe ser un objeto con `name` no vacío de hasta 100 caracteres y `phone` como cadena de ocho dígitos.
+- `universityId` usa los slugs `udi`, `univalle` y `ucebol` en el borrador. Los tres destinos ya están acordados en el MVP.
+- `deliveryReference` es texto no vacío de hasta 200 caracteres. `notes` es opcional y admite texto de hasta 500 caracteres.
+- `requestedFor` requiere una fecha válida con hora, segundos y `Z` o un desfase explícito. La disponibilidad de la franja y el tiempo de preparación se comprueban en el flujo de pedidos.
+- `items` requiere al menos un objeto con `quantity` como entero seguro mayor que cero. El validador acepta `productId` como texto no vacío de hasta 100 caracteres. Prisma usa UUID para `Product.id` y el formato público de `productId` queda por acordar en v1.
+
+El registro del pedido, las consultas de stock y precios y la idempotencia se tratan en sus propios tickets.
+
 ## Códigos de error
 El PR del issue #17 propone un límite de **100 KiB (102 400 bytes)** para los cuerpos que procesa el parser JSON. Al superar ese límite, el parser devuelve `413` antes de que la ruta valide el contenido. El límite para adjuntos se define por separado.
 

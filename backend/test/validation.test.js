@@ -3,14 +3,8 @@ import { once } from "node:events";
 import { after, before, test } from "node:test";
 import { Router } from "express";
 import { createApp, JSON_BODY_LIMIT } from "../src/app.js";
-import {
-  isDateTimeWithOffset,
-  isLocalPhone,
-  isNonEmptyText,
-  isObject,
-  isPositiveInteger,
-  validateJsonObject,
-} from "../src/middleware/validation.js";
+import { validateJsonObject } from "../src/middleware/validation.js";
+import { validateOrderFields } from "../src/modules/orders/order.validation.js";
 
 const sampleOrder = {
   customer: { name: "Ejemplo", phone: "70000000" },
@@ -21,42 +15,8 @@ const sampleOrder = {
   items: [{ productId: "producto_1", quantity: 2 }],
 };
 
-function validateSampleOrder(order) {
-  const details = [];
-  const check = (valid, field, message) => {
-    if (!valid) details.push({ field, message });
-  };
-
-  const { customer, universityId, deliveryReference, notes, requestedFor, items } = order;
-  if (isObject(customer)) {
-    check(isNonEmptyText(customer.name, 100), "customer.name", "Escribe un nombre de hasta 100 caracteres.");
-    check(isLocalPhone(customer.phone), "customer.phone", "Debe ser una cadena de ocho dígitos.");
-  } else {
-    check(false, "customer", "Debe ser un objeto.");
-  }
-  check(["udi", "univalle", "ucebol"].includes(universityId), "universityId", "Elige una universidad admitida.");
-  check(isNonEmptyText(deliveryReference, 200), "deliveryReference", "Escribe una referencia de hasta 200 caracteres.");
-  check(notes === undefined || (typeof notes === "string" && notes.length <= 500), "notes", "Usa hasta 500 caracteres.");
-  check(isDateTimeWithOffset(requestedFor), "requestedFor", "Indica una fecha y hora válida con zona horaria.");
-
-  if (Array.isArray(items) && items.length > 0) {
-    items.forEach((item, index) => {
-      const field = `items[${index}]`;
-      if (!isObject(item)) {
-        check(false, field, "Debe ser un objeto.");
-        return;
-      }
-      check(isNonEmptyText(item.productId, 100), `${field}.productId`, "Indica un identificador de hasta 100 caracteres.");
-      check(isPositiveInteger(item.quantity), `${field}.quantity`, "Debe ser un entero mayor que cero.");
-    });
-  } else {
-    check(false, "items", "Incluye al menos un ítem.");
-  }
-  return details;
-}
-
 const testRouter = Router();
-testRouter.post("/test/orders", validateJsonObject(validateSampleOrder), (_req, res) => {
+testRouter.post("/test/orders", validateJsonObject(validateOrderFields), (_req, res) => {
   res.status(200).json({ status: "ok" });
 });
 testRouter.get("/test/failure", () => {
@@ -95,8 +55,14 @@ async function assertError(response, status, error) {
   assert.deepEqual(await response.json(), { error });
 }
 
-test("acepta un pedido con el formato del contrato", async () => {
+test("acepta un pedido con el formato propuesto", async () => {
   const response = await postOrder(JSON.stringify(sampleOrder));
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { status: "ok" });
+});
+
+test("acepta un pedido sin notas", async () => {
+  const response = await postOrder(JSON.stringify({ ...sampleOrder, notes: undefined }));
   assert.equal(response.status, 200);
   assert.deepEqual(await response.json(), { status: "ok" });
 });
@@ -117,8 +83,10 @@ test("devuelve 422 con los campos inválidos", async () => {
     ...sampleOrder,
     customer: { name: " ", phone: 70000000 },
     universityId: "otra",
+    deliveryReference: "r".repeat(201),
+    notes: null,
     requestedFor: "2026-02-30T12:30:00-04:00",
-    items: [{ productId: "producto_1", quantity: 0 }],
+    items: [{ productId: " ", quantity: 0 }, null],
   };
   await assertError(await postOrder(JSON.stringify(invalidOrder)), 422, {
     code: "VALIDATION_ERROR",
@@ -127,8 +95,12 @@ test("devuelve 422 con los campos inválidos", async () => {
       { field: "customer.name", message: "Escribe un nombre de hasta 100 caracteres." },
       { field: "customer.phone", message: "Debe ser una cadena de ocho dígitos." },
       { field: "universityId", message: "Elige una universidad admitida." },
+      { field: "deliveryReference", message: "Escribe una referencia de hasta 200 caracteres." },
+      { field: "notes", message: "Usa hasta 500 caracteres." },
       { field: "requestedFor", message: "Indica una fecha y hora válida con zona horaria." },
+      { field: "items[0].productId", message: "Indica un identificador de hasta 100 caracteres." },
       { field: "items[0].quantity", message: "Debe ser un entero mayor que cero." },
+      { field: "items[1]", message: "Debe ser un objeto." },
     ],
   });
 });
