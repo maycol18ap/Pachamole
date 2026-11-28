@@ -1,11 +1,11 @@
 # Contrato API propuesto — borrador v0
 
-**Importante:** GET /api/health está implementado y se verificó localmente. Las demás rutas de esta tabla forman parte del contrato propuesto. Antes de implementarlas, revisar las convenciones existentes y registrar los cambios de contrato en el PR.
+**Importante:** `GET /api/health` y `GET /api/products` están implementados. Las demás rutas de esta tabla forman parte del contrato propuesto. Antes de implementarlas, revisar las convenciones existentes y registrar los cambios de contrato en el PR.
 
 | Método | Ruta propuesta | Público/admin | Función |
 |---|---|---|---|
 | GET | `/api/health` | Público | Estado básico |
-| GET | `/api/products` | Público | Catálogo activo y disponibilidad |
+| GET | `/api/products` | Público | Catálogo activo y disponibilidad (implementado) |
 | GET | `/api/universities` | Público | Solo UDI, Univalle, UCEBOL |
 | GET | `/api/slots?date=YYYY-MM-DD` | Público | Horarios programables disponibles |
 | POST | `/api/orders` | Público con protección antiabuso | Registrar pedido atómico e idempotente |
@@ -32,6 +32,12 @@ Devuelve HTTP `200 OK` cuando el servidor Express responde.
   "timestamp": "2026-11-23T22:53:53.570Z"
 }
 ```
+
+## GET /api/products
+
+Consulta PostgreSQL y devuelve solo productos activos. Los agotados se incluyen con `available: false`. El orden es por slug de categoría, nombre y UUID. Cada fila devuelve `productId`, `name`, `category` con `slug` y `name`, `priceMinor` en centavos de boliviano y `available`.
+
+Usa `limit` entre 1 y 100 (50 por defecto) y `offset` entero no negativo (0 por defecto). Por ejemplo, `GET /api/products?limit=2&offset=0`. La respuesta incluye `products` y `nextOffset`, que vale `null` si no hay otra página. Una página vacía devuelve `{"products":[],"nextOffset":null}`. Parámetros inválidos devuelven `422 VALIDATION_ERROR` y un fallo de consulta devuelve `500 INTERNAL_ERROR` sin detalles internos.
 
 ## Crear pedido: JSON ejemplo de **contrato propuesto**
 
